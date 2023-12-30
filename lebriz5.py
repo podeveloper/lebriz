@@ -51,7 +51,11 @@ for doc_id in range(start_doc_id, end_doc_id + 1):
         # Find the "Next" button outside the loop
         next_button = driver.find_element(By.ID, 'dov_Pager2_butRight')
 
-        while next_button.is_enabled():
+        # Extract options from the select box
+        select_box = driver.find_element(By.ID, 'dov_pager1_drpPage')
+        last_page_number = int(select_box.find_elements(By.TAG_NAME, 'option')[-1].get_attribute('value'))
+
+        while saved_page_number < last_page_number:
             try:
                 # Extract the content with BeautifulSoup
                 soup = BeautifulSoup(driver.page_source, 'html.parser')
